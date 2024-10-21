@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -36,84 +37,48 @@ public class ProductController {
     // Show product by ID
     @GetMapping("/product/{id}")
     public String product(Model model, @PathVariable("id") Long id) {
-        Optional<Product> product = productService.getProductById(id);
-        if (product.isPresent()) {
-            model.addAttribute("product", product.get());
-        } else {
-            model.addAttribute("error", "Product not found");
-        }
+        Optional<Category> category = categoryService.getCategoryById(id);
+        model.addAttribute("select_category", category);
         model.addAttribute("categories", categoryService.getAllCategories());
-        return "product/product-details";
+        model.addAttribute("products", productService.findByCategoryId(id));
+        return "/category/category";
     }
 
-    // Show form to create a new product
-    @GetMapping("/product/new")
-    public ModelAndView createProductForm(ModelAndView modelAndView) {
-        Product product = new Product();
-        modelAndView.addObject("product", product);
-        modelAndView.addObject("categories", categoryService.getAllCategories());
-        modelAndView.setViewName("product/product-form");
-        return modelAndView;
+//    // Show form to create a new product
+//    @GetMapping("/product/new")
+//    public ModelAndView createProductForm(ModelAndView modelAndView) {
+//        Product product = new Product();
+//        modelAndView.addObject("name", product);
+//        modelAndView.addObject("categories", categoryService.getAllCategories());
+//        modelAndView.setViewName("product/product-form");
+//        return modelAndView;
+//    }
+
+    @GetMapping("/products/new")
+    public String createProductForm(Model model) {
+        if (model.getAttribute("product") == null) {
+            model.addAttribute("product", new Product());
+        }
+        return "product/product_form";
     }
 
-    // Handle form submission for creating a product
+    // bindiing result gedeg ni - hereglegcees irsen ugugdld ugugduluu zuv shivsen esehd hariu ugdug spring iin san (standard class)
+    // RedirectAttributes - ymar attribute damjij baigaag hynah zoriulalttai
     @PostMapping("/product")
-    public String saveProduct(@Valid @ModelAttribute("product") Product product,
-                              BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("categories", categoryService.getAllCategories());
-            return "product/product-form";
+    public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("product", product)
+                    .addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
+            return "redirect:/products/new";
         }
         productService.createProduct(product);
         return "redirect:/products";
     }
 
-    // Show form to edit an existing product
     @GetMapping("/product/edit/{id}")
-    public ModelAndView editProductForm(@PathVariable("id") Long id, ModelAndView modelAndView) {
+    public String editProduct(@PathVariable("id") Long id, Model model) {
         Optional<Product> product = productService.getProductById(id);
-        if (product.isPresent()) {
-            modelAndView.addObject("product", product.get());
-            modelAndView.addObject("categories", categoryService.getAllCategories());
-            modelAndView.setViewName("product/product-form");
-        } else {
-            modelAndView.setViewName("error/404");
-        }
-        return modelAndView;
-    }
-
-    // Handle form submission for updating a product
-    @PostMapping("/product/edit/{id}")
-    public String updateProduct(@PathVariable("id") Long id,
-                                @Valid @ModelAttribute("product") Product product,
-                                BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("categories", categoryService.getAllCategories());
-            return "product/product-form";
-        }
-        product.setId(id); // Ensure that the ID is set for the updated product
-        productService.updateProduct(product);
-        return "redirect:/products";
-    }
-
-    // Delete product by ID
-    @GetMapping("/product/delete/{id}")
-    public String deleteProduct(@PathVariable("id") Long id) {
-        productService.deleteProductById(id);
-        return "redirect:/products";
-    }
-
-    // Show products by category
-    @GetMapping("/category/{id}/products")
-    public String getProductsByCategory(@PathVariable("id") Long id, Model model) {
-        List<Product> products = (List<Product>) productService.findByCategoryId(id);
-        Optional<Category> category = categoryService.getCategoryById(id);
-        if (category.isPresent()) {
-            model.addAttribute("category", category.get());
-            model.addAttribute("products", products);
-        } else {
-            model.addAttribute("error", "Category not found");
-        }
-        return "product/products-by-category";
+        model.addAttribute("product", product);
+        return "product/product_edit";
     }
 }

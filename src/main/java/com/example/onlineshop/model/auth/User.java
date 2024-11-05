@@ -1,6 +1,7 @@
 package com.example.onlineshop.model.auth;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -56,6 +57,7 @@ public class User {
         this.id = id;
     }
 
+    @NotEmpty(message = "username заавал бичнэ!")
     public String getUsername() {
         return username;
     }

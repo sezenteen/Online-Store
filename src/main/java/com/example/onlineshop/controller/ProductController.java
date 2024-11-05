@@ -12,11 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class ProductController {
+class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
 
@@ -25,60 +24,82 @@ public class ProductController {
         this.categoryService = categoryService;
     }
 
-    // List all products
     @GetMapping("/products")
-    public ModelAndView listProducts(ModelAndView modelAndView) {
-        List<Product> products = productService.getAllProducts();
-        modelAndView.addObject("products", products);
-        modelAndView.setViewName("product/products");
+    public ModelAndView listProducts() {
+        ModelAndView modelAndView = new ModelAndView("/product/products");
+        modelAndView.addObject("products", productService.getAllProducts());
         return modelAndView;
     }
 
-    // Show product by ID
-    @GetMapping("/product/{id}")
-    public String product(Model model, @PathVariable("id") Long id) {
-        Optional<Category> category = categoryService.getCategoryById(id);
-        model.addAttribute("select_category", category);
+    @GetMapping("/products/{id}")
+    public String productByCategory(@PathVariable("id") Long id, Model model) {
+        Optional<Optional<Category>> category = Optional.ofNullable(categoryService.getCategoryById(id));
+        if (category.isEmpty()) {
+            return "redirect:/products?error=CategoryNotFound";
+        }
+        model.addAttribute("select_category", category.get());
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("products", productService.findByCategoryId(id));
         return "/category/category";
     }
-
-//    // Show form to create a new product
-//    @GetMapping("/product/new")
-//    public ModelAndView createProductForm(ModelAndView modelAndView) {
-//        Product product = new Product();
-//        modelAndView.addObject("name", product);
-//        modelAndView.addObject("categories", categoryService.getAllCategories());
-//        modelAndView.setViewName("product/product-form");
-//        return modelAndView;
-//    }
 
     @GetMapping("/products/new")
     public String createProductForm(Model model) {
         if (model.getAttribute("product") == null) {
             model.addAttribute("product", new Product());
         }
-        return "product/product_form";
+        return "/product/product_form";
     }
 
-    // bindiing result gedeg ni - hereglegcees irsen ugugdld ugugduluu zuv shivsen esehd hariu ugdug spring iin san (standard class)
-    // RedirectAttributes - ymar attribute damjij baigaag hynah zoriulalttai
     @PostMapping("/product")
     public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("product", product)
-                    .addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
+            redirectAttributes.addFlashAttribute("product", product).addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
             return "redirect:/products/new";
         }
         productService.createProduct(product);
+        redirectAttributes.addFlashAttribute("success", "Product created successfully!");
         return "redirect:/products";
     }
 
-    @GetMapping("/product/edit/{id}")
-    public String editProduct(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/products/edit/{id}")
+    public String editProductForm(@PathVariable Long id, Model model) {
         Optional<Product> product = productService.getProductById(id);
-        model.addAttribute("product", product);
-        return "product/product_edit";
+        if (product.isEmpty()) {
+            return "redirect:/products?error=ProductNotFound";
+        }
+        model.addAttribute("product", product.get());
+        return "/product/product_edit";
+    }
+
+    @PostMapping("/products/{id}")
+    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute("product") Product product, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("product", product).addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
+            return "redirect:/product/products/edit/" + id;
+        }
+        Optional<Product> existingProduct = productService.getProductById(id);
+        if (existingProduct.isEmpty()) {
+            return "redirect:/products?error=ProductNotFound";
+        }
+        Product updatedProduct = existingProduct.get();
+        updatedProduct.setName(product.getName());
+        updatedProduct.setPrice(product.getPrice());
+        updatedProduct.setDescription(product.getDescription());
+        updatedProduct.setCategory(product.getCategory());
+        productService.createProduct(updatedProduct);
+        redirectAttributes.addFlashAttribute("success", "Product updated successfully!");
+        return "redirect:/product/products";
+    }
+
+    @GetMapping("/products/delete/{id}")
+    public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        if (productService.getProductById(id).isPresent()) {
+            productService.deleteProductById(id);
+            redirectAttributes.addFlashAttribute("success", "Product deleted successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Product not found!");
+        }
+        return "redirect:/product/products";
     }
 }

@@ -3,6 +3,8 @@ package com.example.onlineshop.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table( name ="category")
@@ -10,8 +12,10 @@ import jakarta.persistence.Table;
 public class Category extends BaseEntity{
 
     private String name;
-    @Column(name="name", length = 45)
 
+    @NotBlank
+    @NotEmpty(message = "Барааны нэр оруулна уу!")
+    @Column(name="name", length = 45)
     public String getName() {
         return name;
     }

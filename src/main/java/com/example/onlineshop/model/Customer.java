@@ -4,6 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "customer")
@@ -40,6 +45,7 @@ public class Customer {
     }
 
 
+    @NotBlank
     @Column(name = "name", length = 45, nullable = false)
     public String getName() {
         return name;
@@ -49,6 +55,8 @@ public class Customer {
         this.name = name;
     }
 
+    @Email
+    @NotBlank
     @Column(name = "email", length = 45, nullable = true)
     public String getEmail() {
         return email;
@@ -58,6 +66,7 @@ public class Customer {
         this.email = email;
     }
 
+    @Pattern(regexp = "[0-9]{10}")
     @Column(name = "phone", length = 45)
     public String getPhone() {
         return phone;
@@ -67,6 +76,7 @@ public class Customer {
         this.phone = phone;
     }
 
+    @NotEmpty(message = "Хаягаа оруулна уу!")
     @Column(name = "address", length = 45)
     public String getAddress() {
         return address;
@@ -75,6 +85,7 @@ public class Customer {
     public void setAddress(String address) {
         this.address = address;
     }
+
 
     @Column(name = "city_region", length = 2)
     public String getCity_region() {

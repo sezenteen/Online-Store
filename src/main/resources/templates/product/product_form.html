@@ -2,63 +2,85 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Бүтээгдэхүүн нэмэх</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100">
 
-<div class="container">
-    <h2>Бүтээгдэхүүн нэмэх..</h2>
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb breadcrumb-scroll">
-            <li class="breadcrumb-item">
-                <a class="text-gray-700" href="/">
-                    Нүүр хуудас
-                </a>
+<div class="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-10">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Бүтээгдэхүүн нэмэх</h2>
+    <nav class="text-sm text-gray-500 mb-6">
+        <ol class="list-reset flex space-x-2">
+            <li>
+                <a class="text-blue-700 hover:underline" href="/">Нүүр хуудас</a>
+                <span>/</span>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                <a class="text-gray-700" href="/products">
-                    Бүтээгдэхүүн
-                </a>
-
+            <li>
+                <a class="text-blue-700 hover:underline" href="/products">Бүтээгдэхүүн</a>
+                <span>/</span>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                Шинэ
-            </li>
+            <li class="text-gray-500">Шинэ</li>
         </ol>
     </nav>
-    <form th:action="@{/product}"  method="POST">
-        <div th:object="${product}">
-            <div class="form-group">
-                <label for="name">Нэр:</label>
-                <input type="text" id="name" class="form-control" th:field="*{name}">
-
-                <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">нэр талбар дээр алдаа гарлаа</small>
-<!--                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>-->
-
-            </div>
-            <div class="form-group">
-                <label for="price">Үнэ:</label>
-                <input type="text" id="price" class="form-control" th:field="*{price}" name="price">
-                <small th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger">price талбар дээр алдаа гарлаа</small>
-            </div>
-            <div class="form-group">
-                <label for="description">Дэлгэрэнгүй:</label>
-                <input type="text" id="description" class="form-control" th:field="*{description}" name="description">
-                <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger">description талбар дээр алдаа гарлаа</small>
+    <form th:action="@{/product}" method="POST" th:object="${product}">
+        <div class="space-y-6">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">Нэр:</label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+                    th:field="*{name}">
+                <p class="text-sm text-red-600 mt-1" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">нэр талбар дээр алдаа гарлаа</p>
             </div>
 
-            <div class="form-group">
-                <label for="category_id">Ангилал код: </label>
-                <input type="text" id="category_id" class="form-control" th:field="*{category}" name="category">
-                <small th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="text-danger">category талбар дээр алдаа гарлаа</small>
+            <div>
+                <label for="price" class="block text-sm font-medium text-gray-700">Үнэ:</label>
+                <input 
+                    type="text" 
+                    id="price" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
+                    th:field="*{price}" 
+                    name="price">
+                <p class="text-sm text-red-600 mt-1" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">price талбар дээр алдаа гарлаа</p>
             </div>
 
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Дэлгэрэнгүй:</label>
+                <input 
+                    type="text" 
+                    id="description" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" 
+                    th:field="*{description}" 
+                    name="description">
+                <p class="text-sm text-red-600 mt-1" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">description талбар дээр алдаа гарлаа</p>
+            </div>
 
+            <div>
+                <label for="category_id" class="block text-sm font-medium text-gray-700">Ангилал код:</label>
+                <input 
+                    type="text" 
+                    id="category_id" 
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" 
+                    th:field="*{category}" 
+                    name="category">
+                <p class="text-sm text-red-600 mt-1" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">category талбар дээр алдаа гарлаа</p>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Нэмэх</button>
-        <a class="btn" th:href="@{/product}">Буцах</a>
 
+        <div class="mt-6 flex space-x-4">
+            <button 
+                type="submit" 
+                class="px-6 py-2 bg-blue-600 text-white font-medium rounded-md shadow hover:bg-blue-950 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                Нэмэх
+            </button>
+            <a 
+                class="px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-md shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500" 
+                th:href="@{/product}">
+                Буцах
+            </a>
+        </div>
     </form>
 </div>
+
 </body>
 </html>

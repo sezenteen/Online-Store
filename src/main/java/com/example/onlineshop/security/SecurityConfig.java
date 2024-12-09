@@ -28,7 +28,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers("/register", "/login", "/products/*", "/css/**", "/img/**", "/js/**").permitAll()
+                                .requestMatchers("/register", "/login", "/products/*", "/css/**", "/img/**", "/js/**", "/about").permitAll() // Permit access to /about
                                 .requestMatchers("/users/**").authenticated()
                                 .anyRequest().authenticated()
                 )
@@ -48,6 +48,7 @@ public class SecurityConfig {
                 );
         return http.build();
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {

@@ -1,12 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/src/main/resources/static/css/output.css">
     <title>Бидний тухай</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1 class="bg-slate-400">Бидний тухай</h1>
+<!-- Include Header -->
+<th:block th:include="~{fragments/header}"></th:block>
+
+<!-- About Section -->
+<section class="bg-gray-100 py-20">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <h1 class="text-4xl font-bold text-gray-800">Бидний тухай</h1>
+        <img src="/img/shop.png" alt="zurag" class="bg-center">
+        <p class="mt-4 text-gray-600 text-lg">
+            Манай онлайн дэлгүүр нь таны хэрэгцээнд нийцсэн чанартай бүтээгдэхүүнийг санал болгож байна.
+            Бидний зорилго бол хэрэглэгчдэд хялбар, хурдан, найдвартай үйлчилгээг хүргэх юм.
+        </p>
+    </div>
+</section>
+
+<!-- Footer -->
+<th:block th:include="~{fragments/footer}"></th:block>
 </body>
 </html>

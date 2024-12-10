@@ -54,7 +54,7 @@ class ProductController {
     @PostMapping("/product")
     public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("product", product).addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
+                redirectAttributes.addFlashAttribute("product", product).addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
             return "redirect:/products/new";
         }
         productService.createProduct(product);

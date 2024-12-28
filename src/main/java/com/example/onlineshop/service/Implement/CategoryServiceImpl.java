@@ -13,7 +13,6 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
-
         this.categoryRepository = categoryRepository;
     }
 
@@ -21,9 +20,8 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findByCategoryName(String name) {return categoryRepository.findAll();
     }
 
-
-
     @Override
+    // Fetch all categories from the database
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
@@ -58,4 +56,6 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(id);
         return id+"-тай Хэрэглэгчийн мэдээлэл устлаа.";
     }
+
+
 }

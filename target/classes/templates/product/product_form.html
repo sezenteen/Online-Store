@@ -2,85 +2,113 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Бүтээгдэхүүн нэмэх</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 50px;
+        }
+        h2 {
+            color: #343a40;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+        label {
+            font-weight: 600;
+        }
+        .breadcrumb {
+            background-color: transparent;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
+<body>
 
-<div class="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-10">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6">Бүтээгдэхүүн нэмэх</h2>
-    <nav class="text-sm text-gray-500 mb-6">
-        <ol class="list-reset flex space-x-2">
-            <li>
-                <a class="text-blue-700 hover:underline" href="/">Нүүр хуудас</a>
-                <span>/</span>
+<div class="container">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb" class="mt-4">
+        <ol class="breadcrumb bg-white p-2 shadow-sm rounded">
+            <li class="breadcrumb-item">
+                <a class="text-primary" href="/">Нүүр хуудас</a>
             </li>
-            <li>
-                <a class="text-blue-700 hover:underline" href="/products">Бүтээгдэхүүн</a>
-                <span>/</span>
+            <li class="breadcrumb-item">
+                <a class="text-primary" href="/products">Бүтээгдэхүүн</a>
             </li>
-            <li class="text-gray-500">Шинэ</li>
+            <li class="breadcrumb-item active text-dark" aria-current="page">Шинэ</li>
         </ol>
     </nav>
-    <form th:action="@{/product}" method="POST" th:object="${product}">
-        <div class="space-y-6">
-            <div>
-                <label for="name" class="block text-sm font-medium text-gray-700">Нэр:</label>
-                <input 
-                    type="text" 
-                    id="name" 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
-                    th:field="*{name}">
-                <p class="text-sm text-red-600 mt-1" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">нэр талбар дээр алдаа гарлаа</p>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <h2 class="text-center">Шинэ бүтээгдэхүүн нэмэх</h2>
+        <form th:action="@{/product}" method="POST" th:object="${product}">
+            <!-- Product Name -->
+            <div class="form-group">
+                <label for="name">Нэр:</label>
+                <input type="text" id="name" class="form-control" placeholder="Бүтээгдэхүүний нэр" th:field="*{name}">
+                <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></small>
             </div>
 
-            <div>
-                <label for="price" class="block text-sm font-medium text-gray-700">Үнэ:</label>
-                <input 
-                    type="text" 
-                    id="price" 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
-                    th:field="*{price}" 
-                    name="price">
-                <p class="text-sm text-red-600 mt-1" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">price талбар дээр алдаа гарлаа</p>
+            <!-- Price -->
+            <div class="form-group">
+                <label for="price">Үнэ:</label>
+                <input type="number" step="0.01" id="price" class="form-control" placeholder="Бүтээгдэхүүний үнэ" th:field="*{price}">
+                <small th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></small>
             </div>
 
-            <div>
-                <label for="description" class="block text-sm font-medium text-gray-700">Дэлгэрэнгүй:</label>
-                <input 
-                    type="text" 
-                    id="description" 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" 
-                    th:field="*{description}" 
-                    name="description">
-                <p class="text-sm text-red-600 mt-1" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">description талбар дээр алдаа гарлаа</p>
+            <!-- Description -->
+            <div class="form-group">
+                <label for="description">Дэлгэрэнгүй:</label>
+                <textarea id="description" rows="3" class="form-control" placeholder="Бүтээгдэхүүний дэлгэрэнгүй" th:field="*{description}"></textarea>
+                <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></small>
             </div>
 
-            <div>
-                <label for="category_id" class="block text-sm font-medium text-gray-700">Ангилал код:</label>
-                <input 
-                    type="text" 
-                    id="category_id" 
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" 
-                    th:field="*{category}" 
-                    name="category">
-                <p class="text-sm text-red-600 mt-1" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">category талбар дээр алдаа гарлаа</p>
+            <!-- Category -->
+            <div class="form-group">
+                <label for="category_id">Ангилал:</label>
+                <select id="category_id" class="form-control" th:field="*{category}">
+                    <option value="" disabled selected>Ангилал сонгоно уу</option>
+                    <option th:each="cat : ${categories}"
+                            th:value="${cat.id}"
+                            th:text="${cat.name}"></option>
+                </select>
+                <small th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="text-danger"></small>
             </div>
-        </div>
 
-        <div class="mt-6 flex space-x-4">
-            <button 
-                type="submit" 
-                class="px-6 py-2 bg-blue-600 text-white font-medium rounded-md shadow hover:bg-blue-950 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                Нэмэх
-            </button>
-            <a 
-                class="px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-md shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500" 
-                th:href="@{/product}">
-                Буцах
-            </a>
-        </div>
-    </form>
+            <div class="form-group">
+                <label for="imageUrl">Зургийн URL:</label>
+                <input type="text" id="imageUrl" class="form-control" th:field="*{imageUrl}"
+                       th:placeholder="${product.id == null ? 'Зураг оруулна уу' : 'Хоосон орхисон тохиолдолд зураг өөрчлөгдөхгүй'}">
+                <small th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}" class="text-danger"></small>
+            </div>
+
+
+            <!-- Buttons -->
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary mr-2">Нэмэх</button>
+                <a class="btn btn-secondary" th:href="@{/products}">Буцах</a>
+            </div>
+        </form>
+    </div>
 </div>
 
+<!-- Bootstrap JS and Dependencies -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

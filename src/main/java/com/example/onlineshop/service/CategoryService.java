@@ -24,8 +24,4 @@ public interface CategoryService {
     //    Neg hereglegchiin medeelel ustgah
     public String deleteCategoryById(Long id);
 
-
-
-
-
 }

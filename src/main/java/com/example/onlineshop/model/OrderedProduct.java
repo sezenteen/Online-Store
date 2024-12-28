@@ -2,6 +2,7 @@ package com.example.onlineshop.model;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
 @Table(name = "ordered_product")
@@ -10,6 +11,7 @@ public class OrderedProduct {
     CustomerOrderKey id;
     CustomerOrder customerOrder;
     Product product;
+    @Getter
     int quantity;
 
     @ManyToOne
@@ -31,9 +33,7 @@ public class OrderedProduct {
     public void setProduct(Product product) {
         this.product = product;
     }
-    public int getQuantity() {
-        return quantity;
-    }
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }

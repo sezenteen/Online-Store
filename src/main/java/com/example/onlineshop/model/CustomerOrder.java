@@ -1,12 +1,14 @@
 package com.example.onlineshop.model;
 
 import jakarta.persistence.*;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
 
+@Setter
 @Entity
 @Table(name = "customer_order")
 public class CustomerOrder extends BaseEntity {
@@ -22,10 +24,6 @@ public class CustomerOrder extends BaseEntity {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
     @Basic(optional = false)
     @Column(name = "date_created", insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
@@ -33,18 +31,11 @@ public class CustomerOrder extends BaseEntity {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
     @Column(name = "confirmation_number", nullable = false)
     public Integer getConfirmationNumber() {
         return confirmationNumber;
     }
 
-    public void setConfirmationNumber(Integer confirmationNumber) {
-        this.confirmationNumber = confirmationNumber;
-    }
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
 
@@ -52,15 +43,8 @@ public class CustomerOrder extends BaseEntity {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     @OneToMany(mappedBy = "customerOrder")
     public Set<OrderedProduct> getOrderedProducts(){
         return orderedProducts;
-    }
-    public void setOrderedProducts(Set<OrderedProduct> orderedProducts){
-        this.orderedProducts = orderedProducts;
     }
 }

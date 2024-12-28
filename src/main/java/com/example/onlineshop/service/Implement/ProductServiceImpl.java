@@ -3,6 +3,7 @@ package com.example.onlineshop.service.Implement;
 import com.example.onlineshop.model.Product;
 import com.example.onlineshop.repository.ProductRepository;
 import com.example.onlineshop.service.ProductService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,16 +11,22 @@ import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    @Override
-    public Object findByCategoryId(Long id) {
-        return null;
-    }
+
 
     private final ProductRepository productRepository;
+
+
 
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository= productRepository;
     }
+
+
+    @Override
+    public List<Product> findByCategoryId(Long categoryId) {
+        return productRepository.findByCategoryId(categoryId);
+    }
+
 
     @Override
     public List<Product> findByProductDescription(String name) {
@@ -37,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public List<Product> createProducts(List<Product> products) {
         return productRepository.saveAll(products);
     }

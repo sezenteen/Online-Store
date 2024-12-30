@@ -2,73 +2,44 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
-      <nav class="bg-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between items-center py-4">
-                <div class="text-4xl font-bold text-gray-800">Онлайн дэлгүүр</div>
-    
-                <!-- Menu for larger screens -->
-                <div class="hidden md:flex space-x-6">
-    
-                    <a href="/" class="text-gray-800 hover:text-gray-600">Нүүр хуудас</a>
-                    <div th:if="${currentUser != null }">
-                        <a href="/" class="text-gray-800 hover:text-gray-600">user</a>
-                    </div>
-                    <div sec:authorize="hasRole('Admin')">
-                        <a href="/" class="text-gray-800 hover:text-gray-600">Admin</a>
-                    </div>
-                   <div sec:authorize="isAuthenticated()">
-                       <a th:href="@{/users/profile}" class="text-gray-800 hover:text-gray-600">Профайл</a>
-                       <a th:href="@{/logout}" class="text-gray-800 hover:text-gray-600">Гарах</a>
-    
-                   </div>
-                    <a th:href="@{/about}" class="text-gray-800 hover:text-gray-600">Бидний тухай</a>
-
-
-                    <a th:href="@{/login}" class="text-gray-800 hover:text-gray-600">Нэвтрэх</a>
-                    <a th:href="@{/register}" class="text-gray-800 hover:text-gray-600">Бүртгүүлэх</a>
-                </div>
-    
-                <!-- Hamburger Menu for smaller screens -->
-                <div class="md:hidden">
-                    <button id="menu-btn" class="text-gray-800 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                    </button>
-                </div>
+    <!-- Navbar -->
+    <header class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+            <a href="/" class="text-2xl font-bold text-blue-600">OnlineShop</a>
+            <nav class="hidden md:flex space-x-6">
+                <a th:href="@{/}" class="text-gray-800 hover:text-blue-600">Home</a>
+                <a th:href="@{/products}" class="text-gray-800 hover:text-blue-600">Products</a>
+                <a th:href="@{/about}" class="text-gray-800 hover:text-blue-600">About Us</a>
+                <a th:href="@{/contact}" class="text-gray-800 hover:text-blue-600">Contact</a>
+            </nav>
+            <div class="hidden md:flex items-center space-x-4">
+                <input type="text" placeholder="Search products..." class="border rounded-lg px-4 py-2 text-sm">
+                <a href="/cart" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition duration-300">
+                    Cart
+                </a>
             </div>
+            <button id="menu-btn" class="md:hidden text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
         </div>
-    
-        <!-- Responsive Menu -->
-        <div id="mobile-menu" class="hidden md:hidden">
-    
-            <a href="/" class="text-gray-800 hover:text-gray-600">Нүүр хуудас</a>
-            <div th:if="${currentUser != null }">
-                <a href="/" class="text-gray-800 hover:text-gray-600">user</a>
-            </div>
-            <div sec:authorize="hasRole('Admin')">
-                <a href="/" class="text-gray-800 hover:text-gray-600">user</a>
-            </div>
-            <div sec:authorize="isAuthenticated()">
-                <a th:href="@{/users/profile}" class="text-gray-800 hover:text-gray-600">Профайл</a>
-                <a th:href="@{/logout}" class="text-gray-800 hover:text-gray-600">Гарах</a>
-    
-            </div>
-            <a href="/about" class="text-gray-800 hover:text-gray-600">Бидний тухай</a>
-    
-            <a th:href="@{/login}" class="text-gray-800 hover:text-gray-600">Нэвтрэх</a>
-            <a th:href="@{/register}" class="text-gray-800 hover:text-gray-600">Бүртгүүлэх</a>
+        <div id="mobile-menu" class="md:hidden bg-white hidden">
+            <a href="/" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Home</a>
+            <a href="/products" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Products</a>
+            <a href="/about" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">About Us</a>
+            <a href="/contact" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Contact</a>
         </div>
-    </nav>
-    <!-- JavaScript for Toggle Menu -->
-<script>
-    const menuBtn = document.getElementById('menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
+    </header>
 
-    menuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-    });
-</script>
+    <!-- JavaScript for Mobile Menu -->
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn?.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
     </html>
 </th:block>

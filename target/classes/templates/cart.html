@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - OnlineShop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+<th:block th:include="~{fragments/header}"></th:block>
+
+<!-- Cart Section -->
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <h1 class="text-4xl font-bold text-gray-800 mb-8">Your Cart</h1>
+
+    <!-- Cart Items -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Product List -->
+      <div class="lg:col-span-2">
+        <div class="bg-white shadow-md rounded-lg p-6" th:each="item : ${cartItems}">
+          <div class="flex items-center space-x-6">
+            <img th:src="${item.product.imageUrl}" alt="Product Image" class="w-24 h-24 object-cover rounded-lg">
+            <div class="flex-1">
+              <h2 class="text-lg font-semibold text-gray-800" th:text="${item.product.name}"></h2>
+              <p class="text-gray-600 mt-1" th:text="${item.product.description}"></p>
+              <p class="text-gray-800 mt-2 font-semibold" th:text="'$' + ${item.product.price}"></p>
+            </div>
+            <div class="flex space-x-4 items-center">
+              <input type="number" min="1" value="1" th:value="${item.quantity}" class="w-16 px-2 py-1 border rounded-lg text-center">
+              <button class="text-red-600 hover:text-red-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary Section -->
+      <div>
+        <div class="bg-white shadow-md rounded-lg p-6">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4">Order Summary</h2>
+          <div class="space-y-4">
+            <div class="flex justify-between text-gray-800">
+              <span>Subtotal</span>
+              <span th:text="'$' + ${cartSubtotal}"></span>
+            </div>
+            <div class="flex justify-between text-gray-800">
+              <span>Tax</span>
+              <span th:text="'$' + ${cartTax}"></span>
+            </div>
+            <div class="flex justify-between text-gray-800 font-semibold">
+              <span>Total</span>
+              <span th:text="'$' + ${cartTotal}"></span>
+            </div>
+          </div>
+          <a href="/checkout" class="mt-6 block w-full px-4 py-2 bg-blue-600 text-white text-center rounded-lg hover:bg-blue-500 transition duration-300">
+            Proceed to Checkout
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+</html>

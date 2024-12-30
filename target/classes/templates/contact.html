@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - OnlineShop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+<th:block th:include="~{fragments/header}"></th:block>
+
+<!-- Contact Hero Section -->
+<section class="bg-cover bg-center py-20" style="background-image: url('https://images.pexels.com/photos/9811474/pexels-photo-9811474.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');">
+  <div class="bg-black bg-opacity-60 py-16">
+    <div class="max-w-4xl mx-auto text-center text-white">
+      <h1 class="text-5xl font-bold">Contact Us</h1>
+      <p class="mt-4 text-lg">We are here to help you 24/7!</p>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Form and Details -->
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
+    <!-- Contact Form -->
+    <div>
+      <h2 class="text-3xl font-bold text-gray-800">Get in Touch</h2>
+      <p class="text-gray-600 mt-4">Fill out the form below and we will get back to you as soon as possible.</p>
+      <form class="mt-8 space-y-6">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700">Your Name</label>
+          <input type="text" id="name" class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:ring-blue-600 focus:border-blue-600">
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">Your Email</label>
+          <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:ring-blue-600 focus:border-blue-600">
+        </div>
+        <div>
+          <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+          <textarea id="message" rows="4" class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:ring-blue-600 focus:border-blue-600"></textarea>
+        </div>
+        <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition duration-300">
+          Send Message
+        </button>
+      </form>
+    </div>
+
+    <!-- Contact Details -->
+    <div>
+      <h2 class="text-3xl font-bold text-gray-800">Contact Details</h2>
+      <p class="text-gray-600 mt-4">Reach us via the following channels:</p>
+      <div class="mt-6 space-y-6">
+        <div class="flex items-center space-x-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.5 9.4C19.3 11.1 21 12.8 21 15v2.5c0 2-1 2.5-2.5 2.5h-13C4 20 3 19.5 3 17.5V15c0-2.2 1.8-3.9 4.5-5.6m7 0a4.5 4.5 0 100-9 4.5 4.5 0 000 9zm0 0v6"></path>
+          </svg>
+          <p class="text-gray-700">123 Main Street, Cityname, Country</p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 2H8a4 4 0 00-4 4v12a4 4 0 004 4h8a4 4 0 004-4V6a4 4 0 00-4-4zM8 10h.01M16 10h.01M12 14h.01"></path>
+          </svg>
+          <p class="text-gray-700">+123 456 7890</p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8V6a4 4 0 00-8 0v2m-2 4v6m16-6v6m-6 4v2M6 16V8m12 8V8"></path>
+          </svg>
+          <p class="text-gray-700">support@onlineshop.com</p>
+        </div>
+      </div>
+      <div class="mt-8">
+        <iframe class="w-full h-64 rounded-lg" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434508227!2d144.95373521531784!3d-37.81627944202519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0x5045675218ce7e0!2sVictoria!5e0!3m2!1sen!2sau!4v1635419773811!5m2!1sen!2sau" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-10">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <p class="text-gray-400">© 2024 OnlineShop. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- JavaScript for Mobile Menu -->
+<script>
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuBtn?.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>
+</body>
+</html>

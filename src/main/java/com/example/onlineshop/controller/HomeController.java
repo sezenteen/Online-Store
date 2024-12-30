@@ -32,4 +32,14 @@ public class HomeController {
     public String aboutPage() {
     return "about";
     }
+
+    @GetMapping("/contact")
+    public String contactPage() {
+        return "contact";
+    }
+
+    @GetMapping("/cart")
+    public String cartPage() {
+        return "cart";
+    }
 }

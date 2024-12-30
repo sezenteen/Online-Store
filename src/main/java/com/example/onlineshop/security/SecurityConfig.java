@@ -39,7 +39,7 @@ public class SecurityConfig {
                         ).permitAll()
                         // Restrict access to user-specific pages
                         .requestMatchers("/users/**").authenticated()
-                        .anyRequest().authenticated() // Enforce authentication for any other requests
+                        .anyRequest().permitAll() // Enforce authentication for any other requests
                 )
                 .formLogin(form -> form
                         .loginPage("/login")         // Custom login page

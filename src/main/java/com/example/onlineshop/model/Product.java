@@ -87,7 +87,7 @@ public class Product extends BaseEntity {
         this.category = category;
     }
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     public Set<OrderedProduct> getOrderedProducts() {
         return orderedProducts;
     }

@@ -1,6 +1,8 @@
 package com.example.onlineshop.service.Implement;
 
+import com.example.onlineshop.model.OrderedProduct;
 import com.example.onlineshop.model.Product;
+import com.example.onlineshop.repository.OrderedProductRepository;
 import com.example.onlineshop.repository.ProductRepository;
 import com.example.onlineshop.service.ProductService;
 import jakarta.transaction.Transactional;
@@ -15,12 +17,13 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
+    private final OrderedProductRepository orderedProductRepository;
 
 
-    public ProductServiceImpl(ProductRepository productRepository) {
-        this.productRepository= productRepository;
+    public ProductServiceImpl(ProductRepository productRepository, OrderedProductRepository orderedProductRepository) {
+        this.productRepository = productRepository;
+        this.orderedProductRepository = orderedProductRepository;
     }
-
 
     @Override
     public List<Product> findByCategoryId(Long categoryId) {
@@ -66,9 +69,22 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(findProduct);
     }
 
-    @Override
+//    @Override
+//    public String deleteProductById(Long id) {
+//        productRepository.deleteById(id);
+//        return id+"-тай Хэрэглэгчийн мэдээлэл устлаа.";
+//    }
+
     public String deleteProductById(Long id) {
-        productRepository.deleteById(id);
-        return id+"-тай Хэрэглэгчийн мэдээлэл устлаа.";
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            // Delete associated OrderedProduct records
+            orderedProductRepository.deleteByProductId(id);
+            productRepository.deleteById(id);
+            return "Product with ID " + id + " deleted successfully.";
+        } else {
+            return "Product with ID " + id + " not found.";
+        }
     }
+
 }

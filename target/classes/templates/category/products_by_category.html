@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <h3 class="mt-4 text-center text-xl font-medium text-gray-800" th:text="${product.name}"></h3>
-                <p class="text-center text-gray-600" th:text="'$' + ${product.price}"></p>
+                <p class="text-center text-gray-600" th:text="${product.price} + '₮'"></p>
             </div>
         </div>
     </div>

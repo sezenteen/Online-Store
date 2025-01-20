@@ -114,7 +114,7 @@ class ProductController {
 
 
 
-    @GetMapping("/products/delete/{id}")
+    @DeleteMapping("/products/delete/{id}")
     public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         if (productService.getProductById(id).isPresent()) {
             productService.deleteProductById(id);
